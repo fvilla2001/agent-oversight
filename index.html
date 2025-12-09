@@ -58,7 +58,6 @@
                         'scroll': 'scroll 40s linear infinite',
                         'grid-move': 'grid-move 20s linear infinite',
                         'shimmer': 'shimmer 2.5s linear infinite',
-                        'bounce-slow': 'bounce 2s infinite',
                     },
                     keyframes: {
                         float: {
@@ -85,16 +84,22 @@
 
     <!-- *** ADMIN CONFIGURATION *** -->
     <script>
+        // EDIT THESE LINES WHEN YOU HAVE YOUR DETAILS
         const CONFIG = {
             logoUrl: "https://i.postimg.cc/4xWdMk90/logo-png.png",
+            
+            // Emails
             contactEmail: "contact@agent-oversight.com", 
             legalEmail: "legal@agent-oversight.com",
             auditEmail: "audit@agent-oversight.com",
+            
+            // LinkedIn
             linkedInUrl: "#" 
         };
 
+        // --- SYSTEM ENGINE ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Update Year
+            // Update Copyright Year
             const yearEl = document.getElementById('year');
             if(yearEl) yearEl.textContent = new Date().getFullYear();
 
@@ -148,7 +153,6 @@
             if (mobileMenuBtn && mobileMenu) {
                 mobileMenuBtn.addEventListener('click', () => {
                     mobileMenu.classList.remove('hidden');
-                    // Small delay to allow display:block to apply before opacity transition
                     setTimeout(() => mobileMenu.classList.add('opacity-100', 'translate-y-0'), 10);
                     mobileMenu.classList.remove('opacity-0', '-translate-y-full');
                 });
@@ -163,7 +167,6 @@
                 
                 mobileMenuClose.addEventListener('click', closeMenu);
                 
-                // Close on link click
                 document.querySelectorAll('#mobile-menu a').forEach(link => {
                     link.addEventListener('click', closeMenu);
                 });
@@ -191,7 +194,7 @@
             overflow-x: hidden;
         }
 
-        /* DIGITAL HORIZON BACKGROUND */
+        /* BACKGROUND ENGINE */
         .horizon-glow {
             position: absolute;
             top: -25%; 
@@ -298,7 +301,7 @@
 </head>
 <body class="antialiased relative">
 
-    <!-- NAVBAR -->
+    <!-- NAVBAR - FIXED ALIGNMENT -->
     <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between relative">
             
@@ -330,7 +333,7 @@
                     </a>
                 </div>
                 
-                <!-- Mobile Menu Button (Activated) -->
+                <!-- Mobile Menu Button -->
                 <button id="mobile-menu-btn" class="md:hidden text-white p-2 focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                 </button>
@@ -346,8 +349,9 @@
             </button>
             
             <div class="flex items-center gap-3 mb-12">
-                <img id="mobile-nav-logo-img" src="" alt="AOC Logo" class="hidden h-8 w-auto grayscale">
-                <span class="font-sans font-bold text-white text-lg">AOC</span>
+                <img id="mobile-nav-logo-img" src="" alt="AOC Logo" class="hidden h-9 w-auto object-contain grayscale">
+                <!-- UPDATED MOBILE TEXT -->
+                <span class="font-sans font-bold text-white tracking-tight leading-none text-sm">Agent Oversight Council</span>
             </div>
 
             <nav class="flex flex-col gap-8 font-sans text-2xl font-light text-gray-300">
@@ -410,11 +414,6 @@
                         View Protocols
                     </button>
                 </a>
-            </div>
-
-            <!-- Scroll Indicator -->
-            <div class="absolute bottom-[-100px] left-1/2 transform -translate-x-1/2 animate-bounce-slow opacity-50">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
             </div>
         </div>
     </section>
@@ -633,3 +632,10 @@
                     <span>SECURE. GOVERN. DEPLOY.</span>
                 </div>
             </div>
+        </div>
+    </footer>
+
+</body>
+</html>
+
+
