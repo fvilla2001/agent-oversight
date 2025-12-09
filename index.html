@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO & SOCIAL SHARING -->
+    <title>AOC // Agent Oversight Council</title>
+    <meta name="description" content="Establishing the defensible standard of care for enterprise autonomous AI agents. Aligned with NIST, CSA, and EU AI Act frameworks.">
+    <meta property="og:title" content="Agent Oversight Council">
+    <meta property="og:description" content="Governing the Autonomous Future. Security, compliance, and risk auditing for enterprise AI.">
+    <meta property="og:image" content="https://i.postimg.cc/4xWdMk90/logo-png.png">
+    <meta name="theme-color" content="#030303">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/4xWdMk90/logo-png.png">
+    
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- TAILWIND CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- ANIMATION SAFETY PATCH -->
+    <script>
+        document.documentElement.classList.add('js-loading');
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.documentElement.classList.remove('js-loading');
+            }, 100); 
+        });
+    </script>
+    
+    <!-- CONFIGURATION -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#030303', 
+                            dark: '#0a0a0a',
+                            panel: '#111111',
+                            border: '#333333',
+                            blue: '#4d8aff', // Light Royal Blue
+                            blueDim: 'rgba(22, 85, 201, 0.1)', 
+                            text: '#E5E7EB',
+                            muted: '#9CA3AF'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Roboto Mono', 'monospace'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'scroll': 'scroll 40s linear infinite',
+                        'grid-move': 'grid-move 20s linear infinite',
+                        'shimmer': 'shimmer 2.5s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        scroll: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        },
+                        'grid-move': {
+                            '0%': { transform: 'translateY(0)' },
+                            '100%': { transform: 'translateY(40px)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- *** ADMIN CONFIGURATION *** -->
+    <script>
+        // EDIT THESE LINES WHEN YOU HAVE YOUR DETAILS
+        const CONFIG = {
+            logoUrl: "https://i.postimg.cc/4xWdMk90/logo-png.png",
+            
+            // Emails
+            contactEmail: "contact@agent-oversight.com", 
+            legalEmail: "legal@agent-oversight.com",
+            auditEmail: "audit@agent-oversight.com",
+            
+            // LinkedIn
+            linkedInUrl: "#" 
+        };
+
+        // --- SYSTEM ENGINE ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Update Copyright Year
+            const yearEl = document.getElementById('year');
+            if(yearEl) yearEl.textContent = new Date().getFullYear();
+
+            // Inject Logo & Favicon
+            if (CONFIG.logoUrl) {
+                const favicon = document.querySelector("link[rel~='icon']");
+                if (favicon) favicon.href = CONFIG.logoUrl;
+
+                const navLogo = document.getElementById('nav-logo-img');
+                if (navLogo) {
+                    navLogo.src = CONFIG.logoUrl;
+                    navLogo.classList.remove('hidden');
+                    const fallback = document.getElementById('nav-logo-fallback');
+                    if(fallback) fallback.classList.add('hidden');
+                }
+                const footerLogo = document.getElementById('footer-logo-img');
+                if (footerLogo) {
+                    footerLogo.src = CONFIG.logoUrl;
+                    footerLogo.classList.remove('hidden');
+                    const footerFallback = document.getElementById('footer-logo-fallback');
+                    if(footerFallback) footerFallback.classList.add('hidden');
+                }
+            }
+
+            // Inject Emails
+            const contactLinks = document.querySelectorAll('.email-contact');
+            contactLinks.forEach(link => link.href = `mailto:${CONFIG.contactEmail}`);
+            
+            const legalLinks = document.querySelectorAll('.email-legal');
+            legalLinks.forEach(link => link.href = `mailto:${CONFIG.legalEmail}`);
+
+            const auditLinks = document.querySelectorAll('.email-audit');
+            auditLinks.forEach(link => link.href = `mailto:${CONFIG.auditEmail}`);
+
+            // Inject LinkedIn
+            const socialLink = document.getElementById('social-link');
+            if(socialLink) socialLink.href = CONFIG.linkedInUrl;
+
+            // Reveal Animation Engine
+            const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        });
+    </script>
+
+    <style>
+        html { -webkit-tap-highlight-color: transparent; }
+        body {
+            background-color: #030303;
+            color: #E5E7EB;
+            overflow-x: hidden;
+        }
+
+        /* BACKGROUND ENGINE */
+        .horizon-glow {
+            position: absolute;
+            top: -25%; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140vw;
+            height: 900px;
+            background: radial-gradient(circle, rgba(22, 85, 201, 0.35) 0%, rgba(0,0,0,0) 65%);
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(60px);
+        }
+
+        .perspective-grid-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            perspective: 1000px;
+            z-index: 0;
+            opacity: 0.25;
+        }
+        
+        .perspective-grid {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: rotateX(60deg);
+            animation: grid-move 20s linear infinite;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 80%);
+        }
+
+        /* GLASSMORPHISM */
+        .glass-nav {
+            background: rgba(3, 3, 3, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            /* Ultra smooth hover */
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform, box-shadow;
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(77, 138, 255, 0.4); 
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+        }
+
+        ::selection { background: rgba(22, 85, 201, 0.4); color: #fff; }
+        
+        .ticker-wrap {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+        .ticker-content { display: inline-block; white-space: nowrap; }
+
+        /* FAIL-SAFE ANIMATIONS */
+        .reveal {
+            opacity: 1; /* Default to visible */
+            transform: translateY(0);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        /* Only hide if JS is confirmed running */
+        .js-loading .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
+    </style>
+</head>
+<body class="antialiased relative">
+
+    <!-- NAVBAR - FIXED ALIGNMENT -->
+    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between relative">
+            
+            <!-- LEFT: LOGO (Z-Index ensures clickable) -->
+            <div class="flex-shrink-0 z-20">
+                <a href="#" class="flex items-center gap-3 group">
+                    <img id="nav-logo-img" src="" alt="AOC Logo" class="hidden h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" onerror="this.style.display='none'; document.getElementById('nav-logo-fallback').classList.remove('hidden');">
+                    <div id="nav-logo-fallback" class="text-brand-blue group-hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                    </div>
+                    <div class="hidden sm:flex flex-col justify-center">
+                        <span class="font-sans font-bold text-white tracking-tight leading-none text-sm">Agent Oversight Council</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- CENTER: NAVIGATION LINKS (Absolute centering guarantees perfect middle) -->
+            <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-10 font-sans text-xs tracking-wide font-medium text-gray-400 z-10">
+                <a href="#mission" class="hover:text-white transition-colors duration-300">Mission</a>
+                <a href="#services" class="hover:text-white transition-colors duration-300">Frameworks</a>
+                <a href="#protocols" class="hover:text-white transition-colors duration-300">Library</a>
+            </div>
+
+            <!-- RIGHT: CONTACT BUTTON (Z-Index ensures clickable) -->
+            <div class="flex-shrink-0 flex items-center gap-4 z-20">
+                <div class="hidden md:block">
+                    <a href="#" class="email-contact px-5 py-2.5 rounded-full border border-white/10 bg-white/5 hover:bg-white hover:text-black hover:border-transparent text-xs font-sans font-semibold tracking-wide transition-all duration-300">
+                        Contact Securely
+                    </a>
+                </div>
+                
+                <!-- Mobile Menu Icon -->
+                <button class="md:hidden text-white p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="hero-section" class="relative h-screen min-h-[800px] flex items-center justify-center overflow-hidden">
+        
+        <!-- THE DIGITAL HORIZON BACKGROUND -->
+        <div class="perspective-grid-container">
+            <div class="perspective-grid"></div>
+        </div>
+        <div class="horizon-glow"></div>
+        
+        <!-- Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-transparent to-transparent z-0"></div>
+
+        <!-- Main Content -->
+        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center mt-12 reveal">
+            
+            <!-- System Status Badge -->
+            <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-12 animate-float">
+                <div class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-blue opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-blue"></span>
+                </div>
+                <span class="font-mono text-[10px] text-gray-300 tracking-[0.2em] uppercase">System Governance Active</span>
+            </div>
+
+            <h1 class="font-sans font-bold text-6xl md:text-8xl tracking-tighter text-white mb-8 leading-[1.05]">
+                Governing the <br />
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-gray-600">Autonomous Future.</span>
+            </h1>
+
+            <p class="font-sans text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed font-light">
+                The legal and technical guardrails required for enterprise AI deployment. Aligned with <span class="text-white font-medium">NIST</span>, <span class="text-white font-medium">CSA</span>, and <span class="text-white font-medium">EU</span> frameworks.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <!-- Primary Button -->
+                <a href="#" class="email-audit w-full sm:w-auto">
+                    <button class="w-full px-8 py-4 rounded bg-white text-black font-sans font-bold text-sm tracking-wide hover:bg-gray-200 transition-all transform hover:scale-[1.02] duration-200">
+                        Initialize Audit
+                    </button>
+                </a>
+                
+                <!-- Secondary Button -->
+                <a href="#protocols" class="w-full sm:w-auto">
+                    <button class="w-full px-8 py-4 rounded border border-white/20 text-white font-sans font-bold text-sm tracking-wide bg-transparent hover:bg-white/10 backdrop-blur-md transition-all">
+                        View Protocols
+                    </button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- STANDARDS TICKER -->
+    <section class="border-y border-white/5 bg-black/50 backdrop-blur-md py-6 overflow-hidden relative z-20 reveal">
+        <div class="ticker-wrap">
+            <div class="ticker-content animate-scroll flex gap-24 px-8">
+                 <!-- Set 1 -->
+                <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">NIST AI RMF 1.0</span>
+                <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">CSA AI CONTROLS MATRIX</span>
+                <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">EU AI ACT ART. 14</span>
+                <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">ISO/IEC 42001</span>
+                <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">OWASP LLM TOP 10</span>
+                <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">MITRE ATLAS</span>
+                <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">IBM WATSONX.GOVERNANCE</span>
+                
+                <!-- Set 2 (Seamless Loop) -->
+                <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">NIST AI RMF 1.0</span>
+                <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">CSA AI CONTROLS MATRIX</span>
+                <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">EU AI ACT ART. 14</span>
+                <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">ISO/IEC 42001</span>
+                <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">OWASP LLM TOP 10</span>
+                <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">MITRE ATLAS</span>
+                <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">IBM WATSONX.GOVERNANCE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- MISSION STATEMENT -->
+    <section id="mission" class="relative z-10 py-40 border-b border-white/5 reveal">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="font-mono text-brand-blue text-xs mb-8 tracking-[0.4em] uppercase opacity-60">Core Directive</h2>
+            <p class="font-sans text-3xl md:text-5xl font-light leading-snug text-gray-200">
+                "As autonomy scales, so does liability. The AOC establishes the <span class="text-white font-medium border-b border-brand-blue/50 pb-1">defensible standard of care</span> for organizations deploying autonomous agents."
+            </p>
+        </div>
+    </section>
+
+    <!-- FRAMEWORKS GRID -->
+    <section id="services" class="relative z-10 py-40 px-6 max-w-7xl mx-auto">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-20 border-b border-white/10 pb-8 gap-4 reveal">
+            <div>
+                <h2 class="font-sans text-4xl font-semibold text-white tracking-tight">Operational Frameworks</h2>
+                <p class="text-brand-muted text-sm mt-3 font-mono">Comprehensive risk management modules.</p>
+            </div>
+            <div class="font-mono text-xs text-brand-blue flex items-center gap-2">
+                <span class="w-2 h-2 bg-brand-blue rounded-full animate-pulse"></span>
+                MODULES_LOADED: 3
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Card 1 -->
+            <div class="glass-card p-10 relative overflow-hidden reveal delay-100">
+                <div class="absolute top-0 right-0 p-6 opacity-10">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+                <div class="font-mono text-xs text-brand-blue mb-6 tracking-widest">TIER 1 // CRITICAL</div>
+                <h4 class="font-sans text-2xl font-bold text-white mb-4">Risk Classification</h4>
+                <p class="text-gray-400 text-sm leading-7 mb-8">
+                    Proprietary taxonomy for categorizing agents based on autonomy levels, state-change capability, and financial exposure limits.
+                </p>
+                <div class="w-full h-[1px] bg-white/10"></div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="glass-card p-10 relative overflow-hidden reveal delay-200">
+                <div class="absolute top-0 right-0 p-6 opacity-10">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <div class="font-mono text-xs text-brand-blue mb-6 tracking-widest">TIER 2 // GOVERNANCE</div>
+                <h4 class="font-sans text-2xl font-bold text-white mb-4">Policy Engineering</h4>
+                <p class="text-gray-400 text-sm leading-7 mb-8">
+                    Drafting acceptable use policies (AUP), human-in-the-loop (HITL) protocols, and kill-switch mandates for corporate deployment.
+                </p>
+                <div class="w-full h-[1px] bg-white/10"></div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="glass-card p-10 relative overflow-hidden reveal delay-300">
+                <div class="absolute top-0 right-0 p-6 opacity-10">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <div class="font-mono text-xs text-brand-blue mb-6 tracking-widest">TIER 3 // VERIFICATION</div>
+                <h4 class="font-sans text-2xl font-bold text-white mb-4">Compliance Auditing</h4>
+                <p class="text-gray-400 text-sm leading-7 mb-8">
+                    Forensic auditing of agent logs ("Chain of Thought") to ensure alignment with <strong class="text-white font-medium">CSA AICM</strong>, <strong class="text-white font-medium">NIST AI RMF</strong>, and <strong class="text-white font-medium">OWASP Top 10</strong> vulnerabilities.
+                </p>
+                <div class="w-full h-[1px] bg-white/10"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PROTOCOL DOCUMENT LIBRARY -->
+    <section id="protocols" class="relative z-10 py-32 border-t border-white/5 bg-gradient-to-b from-brand-black to-brand-black">
+        <div class="max-w-7xl mx-auto px-6 reveal">
+            <div class="flex items-end justify-between mb-12">
+                <div>
+                    <h2 class="font-sans text-3xl font-semibold text-white tracking-tight">Protocol Library</h2>
+                    <p class="text-brand-muted text-xs font-mono mt-3 uppercase tracking-widest">Authorized Access Only // v1.0</p>
+                </div>
+            </div>
+
+            <!-- Grid of 6 Documents -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Doc 1 -->
+                <a href="#" class="group glass-card p-6 flex flex-col justify-between h-40">
+                    <div class="flex items-start justify-between">
+                        <div class="font-mono text-[10px] text-gray-500">DOC_001</div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 group-hover:text-brand-blue transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                    </div>
+                    <div class="font-sans text-base font-medium text-gray-200 group-hover:text-white">Global Autonomous Policy</div>
+                </a>
+
+                <!-- Doc 2 -->
+                <a href="#" class="group glass-card p-6 flex flex-col justify-between h-40">
+                    <div class="flex items-start justify-between">
+                        <div class="font-mono text-[10px] text-gray-500">DOC_002</div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 group-hover:text-brand-blue transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                    </div>
+                    <div class="font-sans text-base font-medium text-gray-200 group-hover:text-white">Risk Classification Matrix</div>
+                </a>
+
+                <!-- Doc 3 -->
+                <a href="#" class="group glass-card p-6 flex flex-col justify-between h-40">
+                    <div class="flex items-start justify-between">
+                        <div class="font-mono text-[10px] text-gray-500">DOC_003</div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 group-hover:text-brand-blue transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                    </div>
+                    <div class="font-sans text-base font-medium text-gray-200 group-hover:text-white">Incident Response Plan</div>
+                </a>
+
+                <!-- Doc 4 -->
+                <a href="#" class="group glass-card p-6 flex flex-col justify-between h-40">
+                    <div class="flex items-start justify-between">
+                        <div class="font-mono text-[10px] text-gray-500">DOC_004</div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 group-hover:text-brand-blue transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                    </div>
+                    <div class="font-sans text-base font-medium text-gray-200 group-hover:text-white">Human-in-the-Loop Standard</div>
+                </a>
+
+                <!-- Doc 5 -->
+                <a href="#" class="group glass-card p-6 flex flex-col justify-between h-40">
+                    <div class="flex items-start justify-between">
+                        <div class="font-mono text-[10px] text-gray-500">DOC_005</div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 group-hover:text-brand-blue transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                    </div>
+                    <div class="font-sans text-base font-medium text-gray-200 group-hover:text-white">Vendor Compliance Checklist</div>
+                </a>
+
+                <!-- Doc 6 -->
+                <a href="#" class="group glass-card p-6 flex flex-col justify-between h-40">
+                    <div class="flex items-start justify-between">
+                        <div class="font-mono text-[10px] text-gray-500">DOC_006</div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 group-hover:text-brand-blue transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                    </div>
+                    <div class="font-sans text-base font-medium text-gray-200 group-hover:text-white">Audit Certification Template</div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER - REMOVED TEXT -->
+    <footer class="border-t border-white/10 bg-black pt-24 pb-12 reveal">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-start gap-12 mb-16">
+                
+                <!-- Brand -->
+                <div class="max-w-xs">
+                    <div class="flex items-center gap-2 mb-6">
+                        <img id="footer-logo-img" src="" alt="AOC Logo" class="hidden h-8 w-auto grayscale opacity-80 hover:opacity-100 transition-opacity" onerror="this.style.display='none'; document.getElementById('footer-logo-fallback').classList.remove('hidden');">
+                        <div id="footer-logo-fallback" class="text-brand-blue/80">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 grayscale opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                        </div>
+                        <!-- Removed "AOC" text as requested -->
+                    </div>
+                    <p class="text-gray-500 text-xs leading-relaxed">
+                        The Agent Oversight Council defines the standards for the safe and legal operation of autonomous systems in the enterprise.
+                    </p>
+                </div>
+
+                <!-- Links -->
+                <div class="flex gap-16 font-sans text-xs text-gray-400">
+                    <div class="flex flex-col gap-4">
+                        <span class="text-white font-bold tracking-widest font-mono">SITEMAP</span>
+                        <a href="#" class="hover:text-brand-blue transition-colors">Home</a>
+                        <a href="#" class="hover:text-brand-blue transition-colors">Services</a>
+                        <a href="#" class="hover:text-brand-blue transition-colors">Protocol</a>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <span class="text-white font-bold tracking-widest font-mono">CONTACT</span>
+                        <a href="#" class="email-legal hover:text-brand-blue transition-colors">Legal Inquiry</a>
+                        <a href="#" class="email-audit hover:text-brand-blue transition-colors">Request Audit</a>
+                        <a id="social-link" href="#" class="hover:text-brand-blue transition-colors">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-mono text-gray-600">
+                <p>© <span id="year">2025</span> AGENT OVERSIGHT COUNCIL. ALL RIGHTS RESERVED.</p>
+                <div class="flex gap-4">
+                    <span class="hover:text-white cursor-pointer transition-colors">PRIVACY POLICY</span>
+                    <span class="hover:text-white cursor-pointer transition-colors">TERMS OF SERVICE</span>
+                    <span>SECURE. GOVERN. DEPLOY.</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
