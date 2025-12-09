@@ -58,6 +58,7 @@
                         'scroll': 'scroll 40s linear infinite',
                         'grid-move': 'grid-move 20s linear infinite',
                         'shimmer': 'shimmer 2.5s linear infinite',
+                        'bounce-slow': 'bounce 2s infinite',
                     },
                     keyframes: {
                         float: {
@@ -84,22 +85,16 @@
 
     <!-- *** ADMIN CONFIGURATION *** -->
     <script>
-        // EDIT THESE LINES WHEN YOU HAVE YOUR DETAILS
         const CONFIG = {
             logoUrl: "https://i.postimg.cc/4xWdMk90/logo-png.png",
-            
-            // Emails
             contactEmail: "contact@agent-oversight.com", 
             legalEmail: "legal@agent-oversight.com",
             auditEmail: "audit@agent-oversight.com",
-            
-            // LinkedIn
             linkedInUrl: "#" 
         };
 
-        // --- SYSTEM ENGINE ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Update Copyright Year
+            // Update Year
             const yearEl = document.getElementById('year');
             if(yearEl) yearEl.textContent = new Date().getFullYear();
 
@@ -122,6 +117,13 @@
                     const footerFallback = document.getElementById('footer-logo-fallback');
                     if(footerFallback) footerFallback.classList.add('hidden');
                 }
+                
+                // Mobile Menu Logo
+                const mobileNavLogo = document.getElementById('mobile-nav-logo-img');
+                if (mobileNavLogo) {
+                    mobileNavLogo.src = CONFIG.logoUrl;
+                    mobileNavLogo.classList.remove('hidden');
+                }
             }
 
             // Inject Emails
@@ -137,6 +139,35 @@
             // Inject LinkedIn
             const socialLink = document.getElementById('social-link');
             if(socialLink) socialLink.href = CONFIG.linkedInUrl;
+
+            // Mobile Menu Logic
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuClose = document.getElementById('mobile-menu-close');
+            
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.remove('hidden');
+                    // Small delay to allow display:block to apply before opacity transition
+                    setTimeout(() => mobileMenu.classList.add('opacity-100', 'translate-y-0'), 10);
+                    mobileMenu.classList.remove('opacity-0', '-translate-y-full');
+                });
+            }
+
+            if (mobileMenuClose && mobileMenu) {
+                const closeMenu = () => {
+                    mobileMenu.classList.remove('opacity-100', 'translate-y-0');
+                    mobileMenu.classList.add('opacity-0', '-translate-y-full');
+                    setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+                };
+                
+                mobileMenuClose.addEventListener('click', closeMenu);
+                
+                // Close on link click
+                document.querySelectorAll('#mobile-menu a').forEach(link => {
+                    link.addEventListener('click', closeMenu);
+                });
+            }
 
             // Reveal Animation Engine
             const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
@@ -160,7 +191,7 @@
             overflow-x: hidden;
         }
 
-        /* BACKGROUND ENGINE */
+        /* DIGITAL HORIZON BACKGROUND */
         .horizon-glow {
             position: absolute;
             top: -25%; 
@@ -212,7 +243,6 @@
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
-            /* Ultra smooth hover */
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             will-change: transform, box-shadow;
         }
@@ -222,6 +252,19 @@
             border-color: rgba(77, 138, 255, 0.4); 
             transform: translateY(-5px);
             box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+        }
+        
+        /* Locked Card State */
+        .glass-card-locked {
+            background: rgba(10, 10, 10, 0.4);
+            border: 1px border-dashed rgba(255, 255, 255, 0.05);
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        .glass-card-locked:hover {
+            background: rgba(20, 20, 20, 0.6);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: none;
         }
 
         ::selection { background: rgba(22, 85, 201, 0.4); color: #fff; }
@@ -235,14 +278,12 @@
         }
         .ticker-content { display: inline-block; white-space: nowrap; }
 
-        /* FAIL-SAFE ANIMATIONS */
         .reveal {
-            opacity: 1; /* Default to visible */
+            opacity: 1; /* Default visible */
             transform: translateY(0);
             transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
-        /* Only hide if JS is confirmed running */
         .js-loading .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -257,12 +298,12 @@
 </head>
 <body class="antialiased relative">
 
-    <!-- NAVBAR - FIXED ALIGNMENT -->
+    <!-- NAVBAR -->
     <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between relative">
             
-            <!-- LEFT: LOGO (Z-Index ensures clickable) -->
-            <div class="flex-shrink-0 z-20">
+            <!-- LEFT: LOGO -->
+            <div class="flex-1 flex justify-start z-20">
                 <a href="#" class="flex items-center gap-3 group">
                     <img id="nav-logo-img" src="" alt="AOC Logo" class="hidden h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" onerror="this.style.display='none'; document.getElementById('nav-logo-fallback').classList.remove('hidden');">
                     <div id="nav-logo-fallback" class="text-brand-blue group-hover:text-white transition-colors">
@@ -274,45 +315,70 @@
                 </a>
             </div>
 
-            <!-- CENTER: NAVIGATION LINKS (Absolute centering guarantees perfect middle) -->
+            <!-- CENTER: NAVIGATION -->
             <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-10 font-sans text-xs tracking-wide font-medium text-gray-400 z-10">
                 <a href="#mission" class="hover:text-white transition-colors duration-300">Mission</a>
                 <a href="#services" class="hover:text-white transition-colors duration-300">Frameworks</a>
                 <a href="#protocols" class="hover:text-white transition-colors duration-300">Library</a>
             </div>
 
-            <!-- RIGHT: CONTACT BUTTON (Z-Index ensures clickable) -->
-            <div class="flex-shrink-0 flex items-center gap-4 z-20">
+            <!-- RIGHT: CONTACT & MOBILE MENU BUTTON -->
+            <div class="flex-1 flex justify-end items-center gap-4 z-20">
                 <div class="hidden md:block">
                     <a href="#" class="email-contact px-5 py-2.5 rounded-full border border-white/10 bg-white/5 hover:bg-white hover:text-black hover:border-transparent text-xs font-sans font-semibold tracking-wide transition-all duration-300">
                         Contact Securely
                     </a>
                 </div>
                 
-                <!-- Mobile Menu Icon -->
-                <button class="md:hidden text-white p-2">
+                <!-- Mobile Menu Button (Activated) -->
+                <button id="mobile-menu-btn" class="md:hidden text-white p-2 focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                 </button>
             </div>
         </div>
     </nav>
 
+    <!-- MOBILE MENU OVERLAY -->
+    <div id="mobile-menu" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl hidden transition-all duration-300 opacity-0 -translate-y-full">
+        <div class="flex flex-col h-full p-8 relative">
+            <button id="mobile-menu-close" class="absolute top-6 right-6 text-gray-400 hover:text-white p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            
+            <div class="flex items-center gap-3 mb-12">
+                <img id="mobile-nav-logo-img" src="" alt="AOC Logo" class="hidden h-8 w-auto grayscale">
+                <span class="font-sans font-bold text-white text-lg">AOC</span>
+            </div>
+
+            <nav class="flex flex-col gap-8 font-sans text-2xl font-light text-gray-300">
+                <a href="#mission" class="hover:text-brand-blue hover:pl-2 transition-all">Mission</a>
+                <a href="#services" class="hover:text-brand-blue hover:pl-2 transition-all">Frameworks</a>
+                <a href="#protocols" class="hover:text-brand-blue hover:pl-2 transition-all">Library</a>
+            </nav>
+
+            <div class="mt-auto">
+                <a href="#" class="email-contact block w-full py-4 text-center rounded bg-brand-blue text-black font-bold text-sm uppercase tracking-widest">
+                    Contact Securely
+                </a>
+            </div>
+        </div>
+    </div>
+
     <!-- HERO SECTION -->
     <section id="hero-section" class="relative h-screen min-h-[800px] flex items-center justify-center overflow-hidden">
         
-        <!-- THE DIGITAL HORIZON BACKGROUND -->
+        <!-- BACKGROUND ENGINE -->
         <div class="perspective-grid-container">
             <div class="perspective-grid"></div>
         </div>
         <div class="horizon-glow"></div>
         
-        <!-- Gradient Overlay -->
         <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-transparent to-transparent z-0"></div>
 
-        <!-- Main Content -->
+        <!-- Content -->
         <div class="relative z-10 max-w-5xl mx-auto px-6 text-center mt-12 reveal">
             
-            <!-- System Status Badge -->
+            <!-- Badge -->
             <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-12 animate-float">
                 <div class="relative flex h-2 w-2">
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-blue opacity-75"></span>
@@ -345,6 +411,11 @@
                     </button>
                 </a>
             </div>
+
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-[-100px] left-1/2 transform -translate-x-1/2 animate-bounce-slow opacity-50">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+            </div>
         </div>
     </section>
 
@@ -361,7 +432,7 @@
                 <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">MITRE ATLAS</span>
                 <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">IBM WATSONX.GOVERNANCE</span>
                 
-                <!-- Set 2 (Seamless Loop) -->
+                <!-- Set 2 -->
                 <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">NIST AI RMF 1.0</span>
                 <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">CSA AI CONTROLS MATRIX</span>
                 <span class="font-mono text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors cursor-default tracking-widest">EU AI ACT ART. 14</span>
@@ -441,78 +512,84 @@
         </div>
     </section>
 
-    <!-- PROTOCOL DOCUMENT LIBRARY -->
+    <!-- PROTOCOL DOCUMENT LIBRARY (LOCKED STATE) -->
     <section id="protocols" class="relative z-10 py-32 border-t border-white/5 bg-gradient-to-b from-brand-black to-brand-black">
         <div class="max-w-7xl mx-auto px-6 reveal">
             <div class="flex items-end justify-between mb-12">
                 <div>
                     <h2 class="font-sans text-3xl font-semibold text-white tracking-tight">Protocol Library</h2>
-                    <p class="text-brand-muted text-xs font-mono mt-3 uppercase tracking-widest">Authorized Access Only // v1.0</p>
+                    <p class="text-brand-muted text-xs font-mono mt-3 uppercase tracking-widest">Restricted Access // v1.0</p>
                 </div>
             </div>
 
-            <!-- Grid of 6 Documents -->
+            <!-- Grid of 6 Documents - LOCKED -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
                 <!-- Doc 1 -->
-                <a href="#" class="group glass-card p-6 flex flex-col justify-between h-40">
+                <div class="group glass-card-locked p-6 flex flex-col justify-between h-40 relative overflow-hidden">
                     <div class="flex items-start justify-between">
                         <div class="font-mono text-[10px] text-gray-500">DOC_001</div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 group-hover:text-brand-blue transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
                     </div>
-                    <div class="font-sans text-base font-medium text-gray-200 group-hover:text-white">Global Autonomous Policy</div>
-                </a>
+                    <div class="font-sans text-base font-medium text-gray-400 group-hover:text-gray-300 transition-colors">Global Autonomous Policy</div>
+                    <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity font-mono text-[9px] text-brand-blue/50">REQUEST ACCESS</div>
+                </div>
 
                 <!-- Doc 2 -->
-                <a href="#" class="group glass-card p-6 flex flex-col justify-between h-40">
+                <div class="group glass-card-locked p-6 flex flex-col justify-between h-40 relative overflow-hidden">
                     <div class="flex items-start justify-between">
                         <div class="font-mono text-[10px] text-gray-500">DOC_002</div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 group-hover:text-brand-blue transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
                     </div>
-                    <div class="font-sans text-base font-medium text-gray-200 group-hover:text-white">Risk Classification Matrix</div>
-                </a>
+                    <div class="font-sans text-base font-medium text-gray-400 group-hover:text-gray-300 transition-colors">Risk Classification Matrix</div>
+                    <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity font-mono text-[9px] text-brand-blue/50">REQUEST ACCESS</div>
+                </div>
 
                 <!-- Doc 3 -->
-                <a href="#" class="group glass-card p-6 flex flex-col justify-between h-40">
+                <div class="group glass-card-locked p-6 flex flex-col justify-between h-40 relative overflow-hidden">
                     <div class="flex items-start justify-between">
                         <div class="font-mono text-[10px] text-gray-500">DOC_003</div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 group-hover:text-brand-blue transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
                     </div>
-                    <div class="font-sans text-base font-medium text-gray-200 group-hover:text-white">Incident Response Plan</div>
-                </a>
+                    <div class="font-sans text-base font-medium text-gray-400 group-hover:text-gray-300 transition-colors">Incident Response Plan</div>
+                    <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity font-mono text-[9px] text-brand-blue/50">REQUEST ACCESS</div>
+                </div>
 
                 <!-- Doc 4 -->
-                <a href="#" class="group glass-card p-6 flex flex-col justify-between h-40">
+                <div class="group glass-card-locked p-6 flex flex-col justify-between h-40 relative overflow-hidden">
                     <div class="flex items-start justify-between">
                         <div class="font-mono text-[10px] text-gray-500">DOC_004</div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 group-hover:text-brand-blue transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
                     </div>
-                    <div class="font-sans text-base font-medium text-gray-200 group-hover:text-white">Human-in-the-Loop Standard</div>
-                </a>
+                    <div class="font-sans text-base font-medium text-gray-400 group-hover:text-gray-300 transition-colors">Human-in-the-Loop Standard</div>
+                    <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity font-mono text-[9px] text-brand-blue/50">REQUEST ACCESS</div>
+                </div>
 
                 <!-- Doc 5 -->
-                <a href="#" class="group glass-card p-6 flex flex-col justify-between h-40">
+                <div class="group glass-card-locked p-6 flex flex-col justify-between h-40 relative overflow-hidden">
                     <div class="flex items-start justify-between">
                         <div class="font-mono text-[10px] text-gray-500">DOC_005</div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 group-hover:text-brand-blue transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
                     </div>
-                    <div class="font-sans text-base font-medium text-gray-200 group-hover:text-white">Vendor Compliance Checklist</div>
-                </a>
+                    <div class="font-sans text-base font-medium text-gray-400 group-hover:text-gray-300 transition-colors">Vendor Compliance Checklist</div>
+                    <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity font-mono text-[9px] text-brand-blue/50">REQUEST ACCESS</div>
+                </div>
 
                 <!-- Doc 6 -->
-                <a href="#" class="group glass-card p-6 flex flex-col justify-between h-40">
+                <div class="group glass-card-locked p-6 flex flex-col justify-between h-40 relative overflow-hidden">
                     <div class="flex items-start justify-between">
                         <div class="font-mono text-[10px] text-gray-500">DOC_006</div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 group-hover:text-brand-blue transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
                     </div>
-                    <div class="font-sans text-base font-medium text-gray-200 group-hover:text-white">Audit Certification Template</div>
-                </a>
+                    <div class="font-sans text-base font-medium text-gray-400 group-hover:text-gray-300 transition-colors">Audit Certification Template</div>
+                    <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity font-mono text-[9px] text-brand-blue/50">REQUEST ACCESS</div>
+                </div>
 
             </div>
         </div>
     </section>
 
-    <!-- FOOTER - REMOVED TEXT -->
+    <!-- FOOTER -->
     <footer class="border-t border-white/10 bg-black pt-24 pb-12 reveal">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-start gap-12 mb-16">
@@ -524,7 +601,6 @@
                         <div id="footer-logo-fallback" class="text-brand-blue/80">
                              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 grayscale opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                         </div>
-                        <!-- Removed "AOC" text as requested -->
                     </div>
                     <p class="text-gray-500 text-xs leading-relaxed">
                         The Agent Oversight Council defines the standards for the safe and legal operation of autonomous systems in the enterprise.
@@ -557,8 +633,3 @@
                     <span>SECURE. GOVERN. DEPLOY.</span>
                 </div>
             </div>
-        </div>
-    </footer>
-
-</body>
-</html>
